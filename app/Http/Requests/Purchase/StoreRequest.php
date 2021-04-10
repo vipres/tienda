@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Product;
+namespace App\Http\Requests\Purchase;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -13,7 +13,7 @@ class StoreRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return false;
     }
 
     /**
@@ -24,13 +24,7 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|unique:products|max:255',
-            'image' => 'required|image|dimensions:min_width=100, min_height=200',
-            'sell_price' => 'required',
-            'category_id' => 'integer|required|exists:App\Models\Category,id',
-            'provider_id' => 'integer|required|exists:App\Models\Provider,id',
-
+            //
         ];
     }
-
 }
