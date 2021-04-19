@@ -25,7 +25,7 @@ Route::get('/', function () {
 });
 
 Route::get('prueba', function () {
-    return view('prueba');
+    dd(Storage::deleteDirectory('image'));
 });
 
 
