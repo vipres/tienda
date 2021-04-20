@@ -8,6 +8,7 @@ use App\Http\Requests\Product\StoreRequest;
 use App\Http\Requests\Product\UpdateRequest;
 use App\Models\Category;
 use App\Models\Provider;
+use Storage;
 
 class ProductController extends Controller
 {
@@ -26,8 +27,6 @@ class ProductController extends Controller
 
     public function store(StoreRequest $request)
     {
-
-
         if($request->hasFile('image')){
             $file = $request->file('image');
             $image_name = time().'_'.$file->getClientOriginalName();
@@ -41,8 +40,6 @@ class ProductController extends Controller
             $product['image'] = null;
             $product = Product::create($product);
         }
-
-
 
         $product->update(['code' => $product->id]);
         return redirect()->route('products.index');
@@ -58,12 +55,41 @@ class ProductController extends Controller
         $categories = Category::get();
         $providers = Provider::get();
 
-        return view('admin.product.show', compact('product','categories', 'providers'));
+        return view('admin.product.edit', compact('product','categories', 'providers'));
     }
 
     public function update(UpdateRequest $request, Product $product)
     {
-        $product->update($request->all());
+       $old = $product->image;
+
+        if($request->hasFile('image')){
+            $file = $request->file('image');
+            $image_name = time().'_'.$file->getClientOriginalName();
+            $file->storeAs('image', $image_name);
+            $data = $request->all();
+            $data['image'] = $image_name;
+            //Storage::delete($product->image);
+            $product->update($data);
+            if($old){
+                unlink(storage_path('app\public\image\\'.$old));
+            }
+            //$product = Product::create($product);
+
+
+        }elseif($request->image == null && $old != null){
+
+            $data = $request->all();
+            $data['image'] = $old;
+            $product->update($data);
+            //$product = Product::create($product);
+        }else{
+            $data = $request->all();
+            $data['image'] = null;
+            $product->update($data);
+        }
+
+        //$product->update(['code' => $product->id]);
+        //$product->update($request->all());
         return redirect()->route('products.index');
     }
 

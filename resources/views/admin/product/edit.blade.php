@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title','Editar Proveedor')
+@section('title','Editar Producto')
 @section('styles')
 @endsection
 @section('options')
@@ -10,13 +10,13 @@
 <div class="content-wrapper">
     <div class="page-header">
         <h3 class="page-title">
-            Editar Proveedor
+            Editar Producto
         </h3>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#">Panel administrador</a></li>
-                <li class="breadcrumb-item"><a href="{{route('providers.index')}}">Proveedores</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Editar Proveedor</li>
+                <li class="breadcrumb-item"><a href="{{route('products.index')}}">Productos</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Editar Producto</li>
             </ol>
         </nav>
     </div>
@@ -26,44 +26,73 @@
                 <div class="card-body">
 
                     <div class="d-flex justify-content-between">
-                        <h4 class="card-title">Editar Proveedor</h4>
+                        <h4 class="card-title">Editar Producto {{$product->name}}</h4>
                     </div>
-                    {!! Form::model($provider, ['route'=> ['providers.update', $provider ], 'method'=>'PUT']) !!}
+                    @if (count($errors) > 0)
+                        <div class="alert alert-danger">
+                            <p>Corrige los siguientes errores:</p>
+                            <ul>
+                            @foreach ($errors->all() as $message)
+                                 <li>{{ $message }}</li>
+                            @endforeach
+                            </ul>
+                        </div>
+                     @endif
+                    {!! Form::model($product, ['route'=> ['products.update', $product ], 'method'=>'PUT', 'enctype' => 'multipart/form-data']) !!}
+
 
                     <div class="form-group">
                         <label for="name">Nombre</label>
-                        <input type="text" name="name" id="name" value="{{$provider->name}}" class="form-control" placeholder="Nombre" required>
+                        <input type="text" name="name" value="{{$product->name}}" id="name" class="form-control" placeholder="Nombre" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="sell_price">Precio de Venta</label>
+                        <input type="text" name="sell_price" value="{{$product->sell_price}}" id="sell_price" class="form-control" placeholder="Precio" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="category_id">Categoría</label>
+                        <select class="form-control" name="category_id" id="category_id">
+                            @foreach ($categories as $category)
+                                <option value="{{$category->id}}"
+                                    @if ($product->category_id == $category->id)
+                                        selected
+                                    @endif
+                                    >{{ $category->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="provider_id">Proveedor</label>
+                        <select class="form-control" name="provider_id" id="provider_id">
+                            @foreach ($providers as $provider)
+                                <option value="{{$provider->id}}"
+                                    @if ($provider->id == $product->provider_id)
+                                        selected
+                                    @endif
+                                    >{{ $provider->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    {{-- <div class="custom-file mb-4">
+                        <input type="file" class="custom-file-input" name="image" id="image" lang="es">
+                        <label class="custom-file-label" for="image">Seleccionar Archivo</label>
+                      </div> --}}
+
+                      <div class="card-body">
+                        <h4 class="card-title d-flex">Imagen de producto
+
+                        </h4>
+                        <input type="file" class="dropify" name="image" id="image" />
                       </div>
-                      <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="text" name="email" id="email" value="{{$provider->email}}" class="form-control" placeholder="Email" required>
-                      </div>
-                      <div class="form-group">
-                        <label for="phone">Teléfono</label>
-                        <input type="number" name="phone" id="phone" value="{{$provider->phone}}" class="form-control" placeholder="Teléfono" required>
-                      </div>
-                      <div class="form-group">
-                        <label for="cif">Cif</label>
-                        <input type="text" name="cif" id="cif" value="{{$provider->cif}}" class="form-control" placeholder="Cif" required>
-                      </div>
-                      <div class="form-group">
-                        <label for="address">Dirección</label>
-                        <input type="text" name="address" id="address" value="{{$provider->address}}" class="form-control" placeholder="Dirección" required>
-                      </div>
 
-
-
-
-
-
-                     <button type="submit" class="btn btn-primary mr-2">Registrar</button>
-                     <a href="{{route('providers.index')}}" class="btn btn-light">
+                     <button type="submit" class="btn btn-primary mr-2">Editar</button>
+                     <a href="{{route('products.index')}}" class="btn btn-light">
                         Cancelar
                      </a>
                      {!! Form::close() !!}
                 </div>
                 {{--  <div class="card-footer text-muted">
-                    {{$providers->render()}}
+                    {{$products->render()}}
                 </div>  --}}
             </div>
         </div>
@@ -71,5 +100,7 @@
 </div>
 @endsection
 @section('scripts')
-{!! Html::script('melody/js/data-table.js') !!}
+
+{!! Html::script('melody/js/dropify.js') !!}
+
 @endsection
