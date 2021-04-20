@@ -40,10 +40,8 @@ class ProductSeeder extends Seeder
         return Container::getInstance()->make(Generator::class);
     }
 
-
     public function run()
     {
-
 
         $product = Product::create([
             'name' => 'Producto 1',
