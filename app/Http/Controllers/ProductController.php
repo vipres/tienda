@@ -60,28 +60,30 @@ class ProductController extends Controller
 
     public function update(UpdateRequest $request, Product $product)
     {
+        //imagen antigua
        $old = $product->image;
-
+        //Si viene un archivo en el requuest
         if($request->hasFile('image')){
             $file = $request->file('image');
             $image_name = time().'_'.$file->getClientOriginalName();
             $file->storeAs('image', $image_name);
             $data = $request->all();
             $data['image'] = $image_name;
-            //Storage::delete($product->image);
             $product->update($data);
             if($old){
                 unlink(storage_path('app\public\image\\'.$old));
             }
-            //$product = Product::create($product);
 
-
+            //Si el campo viene en blanco pero habia una imagen
+            //Que no se modifica la imagen
         }elseif($request->image == null && $old != null){
 
             $data = $request->all();
             $data['image'] = $old;
             $product->update($data);
-            //$product = Product::create($product);
+
+            //Si desde el principio no se grabo imagen, se modifica y sigue
+            //sin imageb
         }else{
             $data = $request->all();
             $data['image'] = null;
