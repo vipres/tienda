@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Category;
+use App\Models\Client;
 use App\Models\Provider;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Storage;
@@ -22,5 +23,6 @@ class DatabaseSeeder extends Seeder
         Category::factory(10)->create();
         Provider::factory(20)->create();
         $this->call(ProductSeeder::class);
+        Client::factory(10)->create();
     }
 }

@@ -24,9 +24,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('prueba', function () {
-    dd(Storage::deleteDirectory('image'));
-});
 
 
 Route::resource('categories', CategoryController::class)->names('categories');
@@ -35,4 +32,6 @@ Route::resource('products', ProductController::class)->names('products');
 Route::resource('providers', ProviderController::class)->names('providers');
 Route::resource('purchases', PurchaseController::class)->names('purchases');
 Route::resource('sales', SaleController::class)->names('sales');
+
+Route::get('change_status/products/{product}', [ProductController::class, 'change_status'])->name('change.status.products');
 

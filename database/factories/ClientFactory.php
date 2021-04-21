@@ -22,7 +22,12 @@ class ClientFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'name' => $this->faker->unique()->name(),
+            'dni' => $this->faker->unique()->dni(),
+            'cif' => $this->faker->unique()->dni(),
+            'address' =>$this->faker->streetAddress(),
+            'phone' => $this->faker->unique()->mobileNumber(),
+            'email' => $this->faker->unique()->companyEmail(),
         ];
     }
 }
