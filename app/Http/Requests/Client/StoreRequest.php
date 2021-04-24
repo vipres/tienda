@@ -28,7 +28,7 @@ class StoreRequest extends FormRequest
             'dni'=>'required|string|unique:clients|max:11',
             'cif'=>'nullable|string|unique:clients',
             'address'=>'nullable|string',
-            'phone'=>'string|unique:clients|max:9',
+            'phone'=>'required|string|unique:clients|max:9',
             'email'=>'email:rfc,dns|nullable|unique:clients|max:255'
         ];
     }

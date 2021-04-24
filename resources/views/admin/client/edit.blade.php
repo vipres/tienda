@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title','Editar Producto')
+@section('title','Editar Cliente')
 @section('styles')
 @endsection
 @section('options')
@@ -10,13 +10,13 @@
 <div class="content-wrapper">
     <div class="page-header">
         <h3 class="page-title">
-            Editar Producto
+            Editar Cliente
         </h3>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#">Panel administrador</a></li>
-                <li class="breadcrumb-item"><a href="{{route('products.index')}}">Productos</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Editar Producto</li>
+                <li class="breadcrumb-item"><a href="{{route('clients.index')}}">Clientes</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Editar Cliente</li>
             </ol>
         </nav>
     </div>
@@ -26,7 +26,7 @@
                 <div class="card-body">
 
                     <div class="d-flex justify-content-between">
-                        <h4 class="card-title">Editar Producto {{$product->name}}</h4>
+                        <h4 class="card-title">Editar Cliente {{$client->name}}</h4>
                     </div>
                     @if (count($errors) > 0)
                         <div class="alert alert-danger">
@@ -38,61 +38,43 @@
                             </ul>
                         </div>
                      @endif
-                    {!! Form::model($product, ['route'=> ['products.update', $product ], 'method'=>'PUT', 'enctype' => 'multipart/form-data']) !!}
+                    {!! Form::model($client, ['route'=> ['clients.update', $client ], 'method'=>'PUT']) !!}
 
 
                     <div class="form-group">
                         <label for="name">Nombre</label>
-                        <input type="text" name="name" value="{{$product->name}}" id="name" class="form-control" placeholder="Nombre" required>
+                        <input type="text" value="{{$client->name}}" name="name" id="name" class="form-control" placeholder="Nombre" required>
                     </div>
                     <div class="form-group">
-                        <label for="sell_price">Precio de Venta</label>
-                        <input type="text" name="sell_price" value="{{$product->sell_price}}" id="sell_price" class="form-control" placeholder="Precio" required>
+                        <label for="dni">DNI</label>
+                        <input type="text" value="{{$client->dni}}" name="dni" id="dni" class="form-control" placeholder="DNI" required>
                     </div>
                     <div class="form-group">
-                        <label for="category_id">Categoría</label>
-                        <select class="form-control" name="category_id" id="category_id">
-                            @foreach ($categories as $category)
-                                <option value="{{$category->id}}"
-                                    @if ($product->category_id == $category->id)
-                                        selected
-                                    @endif
-                                    >{{ $category->name }}</option>
-                            @endforeach
-                        </select>
+                        <label for="cif">CIF</label>
+                        <input type="text" value="{{$client->cif}}" name="cif" id="cif" class="form-control" placeholder="CIF">
                     </div>
                     <div class="form-group">
-                        <label for="provider_id">Proveedor</label>
-                        <select class="form-control" name="provider_id" id="provider_id">
-                            @foreach ($providers as $provider)
-                                <option value="{{$provider->id}}"
-                                    @if ($provider->id == $product->provider_id)
-                                        selected
-                                    @endif
-                                    >{{ $provider->name }}</option>
-                            @endforeach
-                        </select>
+                        <label for="address">Dirección</label>
+                        <input type="text" value="{{$client->address}}" name="address" id="address" class="form-control" placeholder="Dirección">
                     </div>
-                    {{-- <div class="custom-file mb-4">
-                        <input type="file" class="custom-file-input" name="image" id="image" lang="es">
-                        <label class="custom-file-label" for="image">Seleccionar Archivo</label>
-                      </div> --}}
+                    <div class="form-group">
+                        <label for="phone">Teléfono</label>
+                        <input type="text" value="{{$client->phone}}" name="phone" id="phone" class="form-control" placeholder="Teléfono" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Correo Electrónico</label>
+                        <input type="email" value="{{$client->email}}" name="email" id="email" class="form-control" placeholder="Email">
+                    </div>
 
-                      <div class="card-body">
-                        <h4 class="card-title d-flex">Imagen de producto
-
-                        </h4>
-                        <input type="file" class="dropify" name="image" id="image" />
-                      </div>
 
                      <button type="submit" class="btn btn-primary mr-2">Editar</button>
-                     <a href="{{route('products.index')}}" class="btn btn-light">
+                     <a href="{{route('clients.index')}}" class="btn btn-light">
                         Cancelar
                      </a>
                      {!! Form::close() !!}
                 </div>
                 {{--  <div class="card-footer text-muted">
-                    {{$products->render()}}
+                    {{$clients->render()}}
                 </div>  --}}
             </div>
         </div>
